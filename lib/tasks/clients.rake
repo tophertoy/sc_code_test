@@ -12,25 +12,33 @@ namespace :clients do
   end
 
   desc "Search clients by name"
-  task :search, [:query] => :environment do |task, args|
-    query = args[:query]
+  task :search, [:query, :page, :per_page] => :environment do |task, args|
+    query = args[:query] || ''
+    page = args[:page] || 1
+    per_page = args[:per_page] || 25
     
-    if query.blank?
-      puts "Usage: rails clients:search[query]"
-      puts "Example: rails clients:search[john]"
+    if query.nil?
+      puts "Usage: rails clients:search[query,page,per_page]"
+      puts "Example: rails clients:search[john,1,25]"
+      puts "Example: rails clients:search['',1,25] (empty query returns all clients)"
       exit 1
     end
     
-    puts "Searching for clients with name containing '#{query}'..."
-    clients = ClientSearchService.call(query)
+    search_description = query.empty? ? "all clients" : "clients with name containing '#{query}'"
+    puts "Searching for #{search_description}..."
+    clients = ClientSearchService.call(query, page: page, per_page: per_page)
     
     if clients.any?
-      puts "Found #{clients.count} client(s):"
+      puts "Found #{clients.count} client(s) on page #{page}:"
       clients.each do |client|
         puts "  - #{client.full_name} (#{client.email})"
       end
     else
-      puts "No clients found matching '#{query}'"
+      if query.empty?
+        puts "No clients found on page #{page}"
+      else
+        puts "No clients found matching '#{query}' on page #{page}"
+      end
     end
   end
 

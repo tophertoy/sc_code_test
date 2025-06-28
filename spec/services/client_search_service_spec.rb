@@ -22,7 +22,31 @@ RSpec.describe ClientSearchService do
   end
 
   it "handles empty query" do
-    results = ClientSearchService.call('')
-    expect(results.count).to eq(35) 
+    results = ClientSearchService.call('', per_page: 35)
+    expect(results.count).to eq(35)
   end
-end
+
+  it "paginates results with default per_page" do
+    results = ClientSearchService.call('', page: 1)
+    expect(results.count).to eq(25) # Default per_page is 25
+  end
+
+  it "paginates results with custom per_page" do
+    results = ClientSearchService.call('', page: 1, per_page: 10)
+    expect(results.count).to eq(10)
+  end
+
+  it "returns correct results for second page" do
+    total_clients = Client.count
+    per_page = 25
+
+    first_page_results = ClientSearchService.call('', page: 1, per_page: per_page)
+    second_page_results = ClientSearchService.call('', page: 2, per_page: per_page)
+
+    expect(second_page_results).not_to include(*first_page_results)
+    
+    # Calculate expected count for the second page
+    expected_second_page_count = [total_clients - per_page, 0].max
+    expect(second_page_results.count).to eq(expected_second_page_count)
+  end
+end 
