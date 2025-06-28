@@ -1,0 +1,121 @@
+[
+  {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "phone": "123-456-7890"
+  },
+  {
+    "id": 2,
+    "name": "Jane Smith",
+    "email": "jane.smith@example.com",
+    "phone": "098-765-4321"
+  },
+  {
+    "id": 3,
+    "name": "Bob Wilson",
+    "email": "bob.wilson@example.com",
+    "phone": "555-123-4567"
+  },
+  {
+    "id": 4,
+    "name": "Alice Brown",
+    "email": "alice.brown@example.com",
+    "phone": "555-987-6543"
+  },
+  {
+    "id": 5,
+    "name": "Charlie Davis",
+    "email": "charlie.davis@example.com",
+    "phone": "555-456-7890"
+  },
+  {
+    "id": 6,
+    "name": "Diana Evans",
+    "email": "diana.evans@example.com",
+    "phone": "555-789-0123"
+  },
+  {
+    "id": 7,
+    "name": "Eve Foster",
+    "email": "eve.foster@example.com",
+    "phone": "555-321-6540"
+  },
+  {
+    "id": 8,
+    "name": "Frank Green",
+    "email": "frank.green@example.com",
+    "phone": "555-654-3210"
+  },
+  {
+    "id": 9,
+    "name": "Grace Harris",
+    "email": "grace.harris@example.com",
+    "phone": "555-012-3456"
+  },
+  {
+    "id": 10,
+    "name": "Henry Irving",
+    "email": "henry.irving@example.com",
+    "phone": "555-345-6789"
+  },
+  {
+    "id": 11,
+    "name": "Invalid Record 1",
+    "email": "invalid-email",
+    "phone": "not-a-phone"
+  },
+  {
+    "id": 12,
+    "name": "",
+    "email": "empty.name@example.com",
+    "phone": "555-111-2222"
+  },
+  {
+    "id": 13,
+    "name": "Missing Email",
+    "phone": "555-222-3333"
+  },
+  {
+    "id": 14,
+    "name": "Duplicate Email",
+    "email": "john.doe@example.com",
+    "phone": "555-333-4444"
+  },
+  {
+    "id": 15,
+    "name": "Very Long Name That Exceeds Reasonable Length Limits And Should Probably Be Rejected",
+    "email": "long.name@example.com",
+    "phone": "555-444-5555"
+  },
+  {
+    "id": 16,
+    "name": "Special Characters !@#$%^&*()",
+    "email": "special@example.com",
+    "phone": "555-555-6666"
+  },
+  {
+    "id": 17,
+    "name": "Null Values",
+    "email": null,
+    "phone": null
+  },
+  {
+    "id": 18,
+    "name": "Extra Fields",
+    "email": "extra@example.com",
+    "phone": "555-666-7777",
+    "age": 25,
+    "address": "123 Main St"
+  },
+  {
+    "id": 19,
+    "name": "Missing Required Fields"
+  },
+  {
+    "id": 20,
+    "name": "Valid After Invalid",
+    "email": "valid.after@example.com",
+    "phone": "555-777-8888"
+  }
+] 

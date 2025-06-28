@@ -1,0 +1,7 @@
+[
+  {"id": 1, "name": "Valid User", "email": "valid@example.com"},
+  "invalid string record",
+  {"id": 2, "name": "Another Valid", "email": "another@example.com"},
+  123,
+  {"id": 3, "name": "Third Valid", "email": "third@example.com"}
+] 
