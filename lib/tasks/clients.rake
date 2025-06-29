@@ -4,8 +4,17 @@ namespace :clients do
     puts "Importing clients from JSON..."
     
     begin
-      ClientImportService.call
-      puts "Successfully imported #{Client.count} clients"
+      result = ClientImportService.call
+      
+      if result[:success]
+        puts "✅ Import completed successfully!"
+        puts "📊 Import Summary:"
+        puts "   • #{result[:imported_count]} client(s) imported"
+        puts "   • #{result[:invalid_count]} record(s) skipped (invalid)"
+        puts "   • #{result[:total_processed]} total record(s) processed"
+      else
+        puts "❌ Import failed: #{result[:error]}"
+      end
     rescue => e
       puts "Error importing clients: #{e.message}"
     end
