@@ -44,9 +44,9 @@ RSpec.describe ClientSearchService do
     second_page_results = ClientSearchService.call('', page: 2, per_page: per_page)
 
     expect(second_page_results).not_to include(*first_page_results)
-    
+
     # Calculate expected count for the second page
-    expected_second_page_count = [total_clients - per_page, 0].max
+    expected_second_page_count = [ total_clients - per_page, 0 ].max
     expect(second_page_results.count).to eq(expected_second_page_count)
   end
-end 
+end

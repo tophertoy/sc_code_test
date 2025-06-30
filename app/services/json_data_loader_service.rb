@@ -1,7 +1,7 @@
 class JsonDataLoaderService
   def self.call(file_path = nil)
-    file_path ||= Rails.root.join('lib', 'data', 'clients.json')
-    
+    file_path ||= Rails.root.join("lib", "data", "clients.json")
+
     begin
       json_data = File.read(file_path)
       raw_data = JSON.parse(json_data)
@@ -40,7 +40,7 @@ class JsonDataLoaderService
         invalid_records << {
           record: record,
           index: index,
-          errors: ["Record must be a hash, got #{record.class}"]
+          errors: [ "Record must be a hash, got #{record.class}" ]
         }
       end
     end
