@@ -13,8 +13,8 @@ RSpec.describe DuplicateEmailService do
 
   it "returns empty when no duplicates exist" do
     Client.where(email: 'jane.smith@yahoo.com').first.destroy
-    
+
     duplicate_emails = DuplicateEmailService.call
     expect(duplicate_emails).to be_empty
   end
-end 
+end

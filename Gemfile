@@ -56,10 +56,10 @@ group :development do
   gem "web-console"
 end
 
-gem "rspec-rails", "~> 8.0", groups: [:development, :test]
+gem "rspec-rails", "~> 8.0", groups: [ :development, :test ]
 
-gem "factory_bot_rails", "~> 6.5", groups: [:development, :test]
+gem "factory_bot_rails", "~> 6.5", groups: [ :development, :test ]
 
 gem "guard-rspec", "~> 4.7", group: :development
 
-gem 'kaminari'
+gem "kaminari"

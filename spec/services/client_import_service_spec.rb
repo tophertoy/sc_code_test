@@ -4,17 +4,17 @@ RSpec.describe ClientImportService do
   describe "importing clients from JSON" do
     it "imports clients into the database" do
       result = ClientImportService.call
-      
+
       expect(result[:success]).to be true
       expect(result[:imported_count]).to eq(35)
       expect(result[:invalid_count]).to eq(0)
       expect(result[:total_processed]).to eq(35)
       expect(Client.count).to eq(35)
-      
+
       first_client = Client.first
       expect(first_client.full_name).to eq('John Doe')
       expect(first_client.email).to eq('john.doe@gmail.com')
-      
+
       duplicate_emails = Client.group(:email).having('count(*) > 1').pluck(:email)
       expect(duplicate_emails).to include('jane.smith@yahoo.com')
     end
@@ -25,9 +25,9 @@ RSpec.describe ClientImportService do
       allow(JsonDataLoaderService).to receive(:call).and_return(
         JsonDataLoaderService.call(Rails.root.join('lib', 'data', 'mixed_data.json'))
       )
-      
+
       result = ClientImportService.call
-      
+
       expect(result[:success]).to be true
       expect(result[:imported_count]).to eq(3)
       expect(result[:invalid_count]).to eq(2)
@@ -41,9 +41,9 @@ RSpec.describe ClientImportService do
       allow(JsonDataLoaderService).to receive(:call).and_return(
         JsonDataLoaderService.call(Rails.root.join('lib', 'data', 'invalid_json.json'))
       )
-      
+
       result = ClientImportService.call
-      
+
       expect(result[:success]).to be false
       expect(result[:error]).to include('Invalid JSON format')
       expect(Client.count).to eq(0)
@@ -55,9 +55,9 @@ RSpec.describe ClientImportService do
       allow(JsonDataLoaderService).to receive(:call).and_return(
         JsonDataLoaderService.call('nonexistent_file.json')
       )
-      
+
       result = ClientImportService.call
-      
+
       expect(result[:success]).to be false
       expect(result[:error]).to include('File not found')
       expect(Client.count).to eq(0)
@@ -69,9 +69,9 @@ RSpec.describe ClientImportService do
       allow(JsonDataLoaderService).to receive(:call).and_return(
         JsonDataLoaderService.call(Rails.root.join('lib', 'data', 'empty_array.json'))
       )
-      
+
       result = ClientImportService.call
-      
+
       expect(result[:success]).to be true
       expect(result[:imported_count]).to eq(0)
       expect(result[:invalid_count]).to eq(0)
@@ -83,9 +83,9 @@ RSpec.describe ClientImportService do
       allow(JsonDataLoaderService).to receive(:call).and_return(
         JsonDataLoaderService.call(Rails.root.join('lib', 'data', 'all_invalid.json'))
       )
-      
+
       result = ClientImportService.call
-      
+
       expect(result[:success]).to be true
       expect(result[:imported_count]).to eq(0)
       expect(result[:invalid_count]).to eq(4)
@@ -97,9 +97,9 @@ RSpec.describe ClientImportService do
   context "when handling database constraints" do
     it "handles database constraint violations gracefully" do
       ClientImportService.call
-      
+
       result = ClientImportService.call
-      
+
       expect(result[:success]).to be true
       expect(result[:imported_count]).to eq(35)
       expect(Client.count).to eq(70)
@@ -121,16 +121,16 @@ RSpec.describe ClientImportService do
         valid_count: 4,
         invalid_count: 0
       })
-      
+
       result = ClientImportService.call
-      
+
       expect(result[:success]).to be true
       expect(result[:imported_count]).to eq(4)
       expect(Client.count).to eq(4)
-      
+
       missing_email_client = Client.find_by(full_name: 'Missing Email')
       missing_name_client = Client.find_by(email: 'missing.name@example.com')
-      
+
       expect(missing_email_client.email).to be_nil
       expect(missing_name_client.full_name).to be_nil
     end
@@ -141,12 +141,12 @@ RSpec.describe ClientImportService do
       allow(JsonDataLoaderService).to receive(:call).and_return(
         JsonDataLoaderService.call(Rails.root.join('lib', 'data', 'non_array.json'))
       )
-      
+
       result = ClientImportService.call
-      
+
       expect(result[:success]).to be false
       expect(result[:error]).to include('Expected JSON array')
       expect(Client.count).to eq(0)
     end
   end
-end 
+end
