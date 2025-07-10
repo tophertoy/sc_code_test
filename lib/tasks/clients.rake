@@ -54,15 +54,14 @@ namespace :clients do
   desc "Find clients with duplicate emails"
   task duplicates: :environment do
     puts "Finding clients with duplicate emails..."
-    duplicate_emails = DuplicateEmailService.call
+    duplicate_data = DuplicateEmailService.call(include_clients: true)
 
-    if duplicate_emails.any?
-      puts "Found #{duplicate_emails.count} email(s) with duplicates:"
-      duplicate_emails.each do |email|
-        clients = Client.where(email: email)
-        puts "\nEmail: #{email}"
-        clients.each do |client|
-          puts "  - #{client.full_name} (ID: #{client.id})"
+    if duplicate_data.any?
+      puts "Found #{duplicate_data.count} email(s) with duplicates:"
+      duplicate_data.each do |duplicate|
+        puts "\nEmail: #{duplicate[:email]}"
+        duplicate[:clients].each do |client|
+          puts "  - #{client[:full_name]} (ID: #{client[:id]})"
         end
       end
     else
