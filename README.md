@@ -24,18 +24,27 @@ rails db:create
 
 ### REST API
 
-The application provides REST API endpoints for client search and duplicate detection:
+The application provides REST API endpoints for client search and duplicate detection. All API endpoints require Basic Authentication.
+
+#### Authentication Setup
+```bash
+# API credentials are stored in Rails encrypted credentials
+# You need the master_key to access and modify them
+
+# View current credentials
+rails credentials:show
+```
 
 #### Search Clients
 ```bash
-# Search clients by name
-curl "http://localhost:3000/api/clients/search?q=john"
+# Search clients by name (replace username:password with your credentials)
+curl -u "admin:password" "http://localhost:3000/api/clients/search?q=john"
 
 # Search with pagination
-curl "http://localhost:3000/api/clients/search?q=john&page=1&per_page=25"
+curl -u "admin:password" "http://localhost:3000/api/clients/search?q=john&page=1&per_page=25"
 
 # Search all clients (empty query)
-curl "http://localhost:3000/api/clients/search?q="
+curl -u "admin:password" "http://localhost:3000/api/clients/search?q="
 
 # Response format:
 {
@@ -59,8 +68,8 @@ curl "http://localhost:3000/api/clients/search?q="
 
 #### Find Duplicate Emails
 ```bash
-# Find all duplicate emails
-curl "http://localhost:3000/api/clients/duplicates"
+# Find all duplicate emails (replace username:password with your credentials)
+curl -u "username:password" "http://localhost:3000/api/clients/duplicates"
 
 ```
 

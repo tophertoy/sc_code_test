@@ -1,6 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe Api::ClientsController, type: :request do
+  let(:username) { 'testuser' }
+  let(:password) { 'testpass' }
+  let(:auth_headers) do
+    { 'HTTP_AUTHORIZATION' => "Basic #{Base64.strict_encode64("#{username}:#{password}")}" }
+  end
+
+  before do
+    # Set up test credentials
+    allow(Rails.application.credentials).to receive(:api_username).and_return(username)
+    allow(Rails.application.credentials).to receive(:api_password).and_return(password)
+  end
+
   describe 'GET /api/clients/search' do
     let!(:client1) { create(:client, full_name: 'John Doe', email: 'john@example.com') }
     let!(:client2) { create(:client, full_name: 'Jane Smith', email: 'jane@example.com') }
@@ -8,7 +20,7 @@ RSpec.describe Api::ClientsController, type: :request do
 
     context 'with a search query' do
       it 'returns matching clients' do
-        get '/api/clients/search', params: { q: 'john' }
+        get '/api/clients/search', params: { q: 'john' }, headers: auth_headers
 
         expect(response).to have_http_status(:ok)
         
@@ -19,7 +31,7 @@ RSpec.describe Api::ClientsController, type: :request do
       end
 
       it 'returns empty results for no matches' do
-        get '/api/clients/search', params: { q: 'nonexistent' }
+        get '/api/clients/search', params: { q: 'nonexistent' }, headers: auth_headers
 
         expect(response).to have_http_status(:ok)
         
@@ -28,7 +40,7 @@ RSpec.describe Api::ClientsController, type: :request do
       end
 
       it 'performs case-insensitive search' do
-        get '/api/clients/search', params: { q: 'JOHN' }
+        get '/api/clients/search', params: { q: 'JOHN' }, headers: auth_headers
 
         expect(response).to have_http_status(:ok)
         
@@ -44,7 +56,7 @@ RSpec.describe Api::ClientsController, type: :request do
       end
 
       it 'returns paginated results' do
-        get '/api/clients/search', params: { q: '', page: 2, per_page: 10 }
+        get '/api/clients/search', params: { q: '', page: 2, per_page: 10 }, headers: auth_headers
 
         expect(response).to have_http_status(:ok)
         
@@ -55,7 +67,7 @@ RSpec.describe Api::ClientsController, type: :request do
       end
 
       it 'uses default pagination when not specified' do
-        get '/api/clients/search', params: { q: '' }
+        get '/api/clients/search', params: { q: '' }, headers: auth_headers
 
         expect(response).to have_http_status(:ok)
         
@@ -67,7 +79,7 @@ RSpec.describe Api::ClientsController, type: :request do
 
     context 'with empty query' do
       it 'returns all clients' do
-        get '/api/clients/search', params: { q: '' }
+        get '/api/clients/search', params: { q: '' }, headers: auth_headers
 
         expect(response).to have_http_status(:ok)
         
@@ -83,7 +95,7 @@ RSpec.describe Api::ClientsController, type: :request do
     let!(:client3) { create(:client, full_name: 'Bob Johnson', email: 'unique@example.com') }
 
     it 'returns duplicate emails with their clients' do
-      get '/api/clients/duplicates'
+      get '/api/clients/duplicates', headers: auth_headers
 
       expect(response).to have_http_status(:ok)
       
@@ -104,7 +116,7 @@ RSpec.describe Api::ClientsController, type: :request do
       end
 
       it 'returns empty array' do
-        get '/api/clients/duplicates'
+        get '/api/clients/duplicates', headers: auth_headers
 
         expect(response).to have_http_status(:ok)
         

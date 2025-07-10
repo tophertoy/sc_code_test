@@ -1,4 +1,4 @@
-class Api::ClientsController < ApplicationController
+class Api::ClientsController < Api::ApplicationController
   def search
     query = params[:q] || ""
     page = params[:page]&.to_i || 1
