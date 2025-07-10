@@ -22,6 +22,48 @@ rails db:create
 
 ## Usage
 
+### REST API
+
+The application provides REST API endpoints for client search and duplicate detection:
+
+#### Search Clients
+```bash
+# Search clients by name
+curl "http://localhost:3000/api/clients/search?q=john"
+
+# Search with pagination
+curl "http://localhost:3000/api/clients/search?q=john&page=1&per_page=25"
+
+# Search all clients (empty query)
+curl "http://localhost:3000/api/clients/search?q="
+
+# Response format:
+{
+  "query": "john",
+  "page": 1,
+  "per_page": 25,
+  "total_count": 1,
+  "total_pages": 1,
+  "current_page": 1,
+  "clients": [
+    {
+      "id": 1,
+      "full_name": "John Doe",
+      "email": "john@example.com",
+      "created_at": "2024-01-01T00:00:00.000Z",
+      "updated_at": "2024-01-01T00:00:00.000Z"
+    }
+  ]
+}
+```
+
+#### Find Duplicate Emails
+```bash
+# Find all duplicate emails
+curl "http://localhost:3000/api/clients/duplicates"
+
+```
+
 ### Command Line Interface
 ```bash
 # Import clients from JSON file
